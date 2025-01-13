@@ -8,7 +8,7 @@ public class CartRepository(GlobomanticsContext context) : GenericRepository<Car
 {
     public Cart CreateOrUpdate(Guid? cartId, Guid productId, int quantity = 1)
     {
-        (var cart, var isNewCart) = GetCart(cartId);
+        (Cart cart, bool isNewCart) = GetCart(cartId);
 
         AddProductToCart(cart, productId, quantity);
 
@@ -47,7 +47,7 @@ public class CartRepository(GlobomanticsContext context) : GenericRepository<Car
 
     private void AddProductToCart(Cart cart, Guid productId, int quantity)
     {
-        var lineItem = cart.LineItems.FirstOrDefault(x => x.ProductId == productId);
+        LineItem? lineItem = cart.LineItems.FirstOrDefault(x => x.ProductId == productId);
 
         if (lineItem is not null && quantity == 0)
         {

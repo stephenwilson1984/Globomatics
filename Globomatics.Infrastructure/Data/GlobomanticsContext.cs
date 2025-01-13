@@ -18,7 +18,7 @@ public class GlobomanticsContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         // MOVE TO A SECURE PLACE!!!!
-        var connectionString = "Data Source=globomantics.db;";
+        string? connectionString = "Data Source=globomantics.db;";
 
         optionsBuilder.UseSqlite(connectionString);
     }

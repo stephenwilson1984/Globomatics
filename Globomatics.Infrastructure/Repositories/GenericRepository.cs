@@ -8,14 +8,14 @@ public abstract class GenericRepository<T>(GlobomanticsContext context) : IRepos
 
     public virtual T Add(T entity)
     {
-        var addedEntity = Context.Add(entity).Entity;
+        T? addedEntity = Context.Add(entity).Entity;
 
         return addedEntity;
     }
 
     public virtual IEnumerable<T> All()
     {
-        var all = Context.Set<T>().ToList();
+        List<T>? all = Context.Set<T>().ToList();
 
         return all;
     }

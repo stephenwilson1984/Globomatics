@@ -1,14 +1,20 @@
-﻿using Globomatics.Web.Models;
+﻿using Globomantics.Domain.Models;
+using Globomatics.Infrastructure.Repositories;
+using Globomatics.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Globomatics.Web.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IRepository<Product> productRepository, ILogger<HomeController> logger) : Controller
 {
     public IActionResult Index()
     {
-        return View();
+        IEnumerable<Product> products = productRepository.All();
+
+        logger.LogInformation("Loaded {ProductCount} products", products.Count());
+
+        return View(products);
     }
 
     public IActionResult TicketDetails(Guid productId, string slug)
