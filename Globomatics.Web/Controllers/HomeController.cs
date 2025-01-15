@@ -2,6 +2,7 @@
 using Globomatics.Infrastructure.Repositories;
 using Globomatics.Web.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace Globomatics.Web.Controllers;
@@ -17,9 +18,16 @@ public class HomeController(IRepository<Product> productRepository, ILogger<Home
         return View(products);
     }
 
-    public IActionResult TicketDetails(Guid productId, string slug)
+    [Route("/details/{productId:guid}/{slug:slugTransform}")]
+    public IActionResult TicketDetails(Guid productId, [RegularExpression("^[a-zA-z0-9- ]+$")] string slug)
     {
-        throw new NotImplementedException();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest();
+        }
+
+        var product = productRepository.Get(productId);
+        return View(product);
     }
 
     public IActionResult Privacy()
